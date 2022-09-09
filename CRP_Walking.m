@@ -13,7 +13,7 @@
 
 %OUTPUT:
 
-%Excel file with: Segments pair CRP
+%Excel file with: Segments and Joints pair CRP (Mean, SD, Curve 0-100% from the Stride)
 
 
 
