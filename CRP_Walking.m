@@ -13,7 +13,7 @@
 
 %OUTPUT:
 
-%Excel file with: Segments and Joints pair CRP (Mean, SD, Curve 0-100% from the Stride)
+%Excel file with: Segments pair CRP
 
 
 
@@ -66,7 +66,10 @@ Input_Matrix_FilesNames = table2array(Input_Matrix_FilesNames(:,1));
 % Here the numerical data from the from TDTO File is imported
 Input_File_Data = readmatrix(Input_Files_Information);
 
-
+fsample = 60;
+dt= 1/fsample;
+fcut= 1.5;
+order= 4;
 
 %Depth code
     % 1 = Knee
@@ -107,6 +110,11 @@ for k =  1:length(Input_File_Data)
 
         Ankle_Joint_Angle = Data(:,13:17);
 
+        Foot_Angle = matfiltfilt(dt, fcut, order, Foot_Angle);
+        Shank_Angle = matfiltfilt(dt, fcut, order, Shank_Angle);
+        Ankle_Joint_Angle = matfiltfilt(dt, fcut, order, Ankle_Joint_Angle);
+        
+        
                 %Separating per Strides
         Foot_Angle_Stride_1 = Foot_Angle(:,1);
         Foot_Angle_Stride_2 = Foot_Angle(:,2);
@@ -273,6 +281,14 @@ for k =  1:length(Input_File_Data)
 
         Ankle_Joint_Angle = Data(:,19:23);
         Knee_Joint_Angle = Data(:,25:29);
+        
+                %Low Pass Butterworth Filter
+        Foot_Angle = matfiltfilt(dt, fcut, order, Foot_Angle);
+        Shank_Angle = matfiltfilt(dt, fcut, order, Shank_Angle);
+        Thigh_Angle = matfiltfilt(dt, fcut, order, Thigh_Angle);
+        
+        Ankle_Joint_Angle = matfiltfilt(dt, fcut, order, Ankle_Joint_Angle);
+        Knee_Joint_Angle = matfiltfilt(dt, fcut, order, Knee_Joint_Angle);
 
                 %Separating per Strides
         Foot_Angle_Stride_1 = Foot_Angle(:,1);
@@ -589,6 +605,17 @@ for k =  1:length(Input_File_Data)
         Ankle_Joint_Angle = Data(:,25:29);
         Knee_Joint_Angle = Data(:,31:35);
         Hip_Joint_Angle = Data(:,37:41);
+        
+                %Low Pass Butterworth Filter
+        Foot_Angle = matfiltfilt(dt, fcut, order, Foot_Angle);
+        Shank_Angle = matfiltfilt(dt, fcut, order, Shank_Angle);
+        Thigh_Angle = matfiltfilt(dt, fcut, order, Thigh_Angle);
+        Trunk_Angle = matfiltfilt(dt, fcut, order, Trunk_Angle);
+        
+        Ankle_Joint_Angle = matfiltfilt(dt, fcut, order, Ankle_Joint_Angle);
+        Knee_Joint_Angle = matfiltfilt(dt, fcut, order, Knee_Joint_Angle);
+        Hip_Joint_Angle = matfiltfilt(dt, fcut, order, Hip_Joint_Angle);
+        
 
                 %Separating per Strides
         Foot_Angle_Stride_1 = Foot_Angle(:,1);
